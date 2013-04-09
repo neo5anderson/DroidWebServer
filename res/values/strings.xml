@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WebServer</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="port">Port: </string>
+    <string name="doc_root">DocRoot: </string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="configuration">Configuration</string>
+
+</resources>
