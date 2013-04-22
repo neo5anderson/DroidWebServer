@@ -1,5 +1,6 @@
 package neo.droid.web.server;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import android.app.Activity;
@@ -47,8 +48,8 @@ public class MainActivity extends Activity {
 				AlertDialog.Builder aBuilder = new AlertDialog.Builder(
 						MainActivity.this);
 				aBuilder.setTitle(R.string.configuration);
-				View view = LayoutInflater.from(MainActivity.this)
-						.inflate(R.layout.dailog_webserver_config, null);
+				View view = LayoutInflater.from(MainActivity.this).inflate(
+						R.layout.dailog_webserver_config, null);
 
 				final EditText portEditText = (EditText) view
 						.findViewById(R.id.edit_port);
@@ -87,12 +88,19 @@ public class MainActivity extends Activity {
 		});
 
 		Map<String, String> map = ResUtils.getLocalIpAddr();
-		if (map.containsKey("eth0")) {
-			ipAddr = map.get("eth0");
-		} else if (map.containsKey("wlan0")) {
-			ipAddr = map.get("wlan0");
-		} else {
-			ipAddr = "x";
+		String key = null;
+		Iterator<String> iterator = map.keySet().iterator();
+		while (iterator.hasNext()) {
+			key = iterator.next();
+			if (key.contains("eth") && map.get(key).contains(".")) {
+				ipAddr = map.get(key);
+			} else if (key.contains("wlan") && map.get(key).contains(".")) {
+				ipAddr = map.get(key);
+			}
+		}
+
+		if (Strings.isEmpty(ipAddr)) {
+			ipAddr = "#";
 		}
 
 		port = WebService.DEFAULT_PORT;
@@ -104,7 +112,7 @@ public class MainActivity extends Activity {
 		}
 
 		intent = new Intent(MainActivity.this, WebService.class);
-		
+
 		toggleButton
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 

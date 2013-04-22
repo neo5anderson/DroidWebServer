@@ -231,7 +231,7 @@ public class WebService extends Service {
 					sBuilder.append("<html>\n<head>\n\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n\t<link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\" />\n\t<link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"favicon.ico\" />\n</head>\n");
 					sBuilder.append("<body>\n\t<h1>"
 							+ ((null == target) ? file.getAbsolutePath()
-									: target) + "</h1>\n");
+									: target) + "</h1>\n\t<table>\n");
 					File[] files = file.listFiles();
 					if (null != files && files.length > 0) {
 						Files.sort(files);
@@ -240,9 +240,9 @@ public class WebService extends Service {
 						}
 					}
 					if (false == file.getPath().equals(DOC_ROOT)) {
-						sBuilder.append("\t<p><a href=\"..\">Back</a></p>\n");
+						sBuilder.append("\t\t<tr><p><a href=\"..\">Back</a></p></tr>\n");
 					}
-					sBuilder.append("\t<hr />" + INFO + "\n</body>\n</html>\n");
+					sBuilder.append("\t</table>\n\t<hr />" + INFO + "\n</body>\n</html>\n");
 					entity = new StringEntity(sBuilder.toString(), "UTF-8");
 					response.setHeader("Content-Type", "text/html");
 				}
@@ -293,25 +293,25 @@ public class WebService extends Service {
 	 */
 	private static String addFile(File file) {
 		if (false != file.isDirectory()) {
-			return ("\t<a href=\""
+			return ("\t\t<tr><td colspan=\"2\"><a href=\""
 					+ file.getName()
 					+ "/\">[+]"
 					+ file.getName()
-					+ "</a>, "
+					+ "</a></td><td>"
 					+ Strings.getFormattedTimeString(file.lastModified(),
-							"yyyy-MM-dd hh:mm:ss") + ", <a href=\""
-					+ file.getName() + SUF_DEL + "\">Delete</a><br />\n");
+							"yyyy-MM-dd hh:mm:ss") + "</td><td><a href=\""
+					+ file.getName() + SUF_DEL + "\">Delete</a></td></tr>\n");
 		} else {
-			return ("\t<a href=\""
+			return ("\t\t<tr><td><a href=\""
 					+ file.getName()
 					+ "\">"
 					+ file.getName()
-					+ "</a>, "
+					+ "</a></td><td>"
 					+ Files.formatFileSize(file.length(), "%.2f ")
-					+ ", "
+					+ "</td><td>"
 					+ Strings.getFormattedTimeString(file.lastModified(),
-							"yyyy-MM-dd hh:mm:ss") + ", <a href=\""
-					+ file.getName() + SUF_DEL + "\">Delete</a><br />\n");
+							"yyyy-MM-dd hh:mm:ss") + "</td><td><a href=\""
+					+ file.getName() + SUF_DEL + "\">Delete</a></td></tr>\n");
 		}
 	}
 
